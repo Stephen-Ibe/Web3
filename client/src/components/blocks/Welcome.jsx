@@ -1,27 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SiEthereum } from 'react-icons/si';
 import { BsInfoCircle } from 'react-icons/bs';
+import Input from '../elements/Input';
+import Loader from './Loader';
 
 const commonStyles =
   'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white';
 
-const Input = ({ placeholder, name, type, handleChange, value }) => (
-  <input
-    placeholder={placeholder}
-    name={name}
-    type={type}
-    onChange={(e) => handleChange(e)}
-    step='0.0001'
-    value={value}
-    className='my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white'
-  />
-);
-
 const Welcome = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({});
+
   const connectWallet = () => {};
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -94,6 +92,17 @@ const Welcome = () => {
               handleChange={handleInputChange}
             />
             <div className='h-[1px] w-full bg-gray-400 my-2' />
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <button
+                type='button'
+                onClick={handleSubmit}
+                className='text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer'
+              >
+                Send now
+              </button>
+            )}
           </div>
         </div>
       </div>
